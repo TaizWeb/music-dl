@@ -7,6 +7,7 @@ print("Welcome to music-dl, a tool built on youtube-dl!")
 
 def printOptions():
 	print("(d)ownload a new album")
+	print("(i)nfo")
 	print("(q)uit music-dl")
 
 def downloadPrompt():
@@ -41,11 +42,19 @@ def addMetadata(location):
 		songTitle = input("Enter a title: ")
 		subprocess.run(["ffmpeg", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
 
+def printInfo():
+	print("\nIn order to run music-dl, you need the following installed at their LATEST version:")
+	print("Python 3.6+, can be installed from your systems package manager or from python.org, run python -v to check your installed version")
+	print("youtube-dl: Installed with 'pip install youtube-dl', can be upgraded with 'pip install --upgrade youtube-dl'")
+	print("ffmpeg: Installed/upgraded with your system's package manager. Debian users can run 'sudo apt install ffmpeg'")
+
 while (running):
 	printOptions()
 	selection = input("What would you like to do: ")
 	if (selection == "d"):
 		downloadPrompt()
+	elif (selection == "i"):
+		printInfo()
 	elif (selection == "q"):
 		running = False
 	else:
