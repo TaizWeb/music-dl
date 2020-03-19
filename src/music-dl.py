@@ -29,12 +29,15 @@ def convertAlbum(location):
 	songs = os.listdir()
 	for song in songs:
 		# Exclude images
-		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
-			print(song)
-			subprocess.run(["ffmpeg", "-i", song, song.split(".")[0] + "." + albumFormat])
-	cleanupAlbum(location)
+		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
+			songData = song.split(".")
+			subprocess.run(["ffmpeg", "-i", song, songData[0] + "." + albumFormat])
+			print("Removing " + song)
+			subprocess.run(["rm", song])
+
 	addMetadata(location)
 
+# Removes all songs without final- prefixed, then renames final- to it's old name
 def cleanupAlbum(location):
 	pass
 
@@ -45,9 +48,11 @@ def addMetadata(location):
 	print(songs)
 	for song in songs:
 		songTitle = input("Enter a title: ")
-		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
+		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("Converting: " + song)
 			subprocess.run(["ffmpeg", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
+			subprocess.run(["rm", song])
+			subprocess.run(["mv", "new-" + song, song])
 	addCoverArt(location)
 
 def addCoverArt(location):
@@ -57,8 +62,11 @@ def addCoverArt(location):
 		artLocation = "cover.png"
 	for song in songs:
 		print("Adding art to " + song)
-		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
+		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
+			# subprocess.run(["rm", song])
+			# subprocess.run(["mv", "new-" + song, song])
+	cleanupAlbum(location)
 
 def printInfo():
 	print("\nIn order to run music-dl, you need the following installed at their LATEST version:")
