@@ -24,7 +24,14 @@ def convertAlbum(location):
 	print("Common formats are: ogg, opus, mp3, wav, flac")
 	print("ogg is reccomended because it supports metadata and album covers")
 	albumFormat = input("Enter a format (no period): ")
-	subprocess.run(["./converter.sh", albumFormat], cwd=os.getcwd() + "/" + location)
+	# subprocess.run(["../converter.sh", albumFormat], cwd=os.getcwd() + "/" + location)
+	os.chdir(location)
+	songs = os.listdir()
+	for song in songs:
+		# Exclude images
+		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
+			print(song)
+			subprocess.run(["ffmpeg", "-i", song, song.split(".")[0] + "." + albumFormat])
 	cleanupAlbum(location)
 	addMetadata(location)
 
@@ -32,21 +39,32 @@ def cleanupAlbum(location):
 	pass
 
 def addMetadata(location):
-	os.chdir(location)
 	songs = os.listdir()
 	albumArtist = input("Enter the artist of the album: ")
 	albumName = input("Enter the name of the album: ")
 	print(songs)
 	for song in songs:
-		print("Converting: " + song)
 		songTitle = input("Enter a title: ")
-		subprocess.run(["ffmpeg", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
+		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
+			print("Converting: " + song)
+			subprocess.run(["ffmpeg", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
+	addCoverArt(location)
+
+def addCoverArt(location):
+	songs = os.listdir()
+	artLocation = input("Enter the filename within '" + location + "' of the cover art (default: cover.png): ")
+	if (artLocation == ""):
+		artLocation = "cover.png"
+	for song in songs:
+		print("Adding art to " + song)
+		if (song[:-3] != "png" and song[:-3] != "jpg" and song[:-4] != "jpeg"):
+			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
 
 def printInfo():
 	print("\nIn order to run music-dl, you need the following installed at their LATEST version:")
 	print("Python 3.6+, can be installed from your systems package manager or from python.org, run python -v to check your installed version")
 	print("youtube-dl: Installed with 'pip install youtube-dl', can be upgraded with 'pip install --upgrade youtube-dl'")
-	print("ffmpeg: Installed/upgraded with your system's package manager. Debian users can run 'sudo apt install ffmpeg'")
+	print("ffmpeg: Installed/upgraded with your system's package manager. Debian users can run 'sudo apt install ffmpeg'\n")
 
 while (running):
 	printOptions()
