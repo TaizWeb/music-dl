@@ -5,6 +5,7 @@ import os
 # TODO: Color output
 
 running = True
+formats = ["ogg", "opus", "mp3", "wav", "flac"]
 
 print("Welcome to music-dl, a tool built on youtube-dl!")
 
@@ -29,6 +30,15 @@ def verifyFolder(location):
 			location = verifyFolder(input("Enter a folder name for the playlist: "))
 	return location
 
+# verifyFormat: Checks if the entered file format is supported
+def verifyFormat(fileFormat):
+	if (fileFormat in formats):
+		return fileFormat
+	else:
+		print("Supported formats: ogg, opus, mp3, wav, flac")
+		fileFormat = verifyFormat(input("Enter a format: "))
+	return fileFormat
+
 # downloadPrompt: Prompts the user for a link to the youtube-playlist
 def downloadPrompt():
 	playlist = input("Enter the playlist URL: ")
@@ -44,8 +54,7 @@ def convertAlbum(location):
 	print("Would you like to convert them?")
 	print("Common formats are: ogg, opus, mp3, wav, flac")
 	print("ogg is reccomended because it supports metadata and album covers")
-	albumFormat = input("Enter a format (no period): ")
-	# subprocess.run(["../converter.sh", albumFormat], cwd=os.getcwd() + "/" + location)
+	albumFormat = verifyFormat(input("Enter a format (no period): "))
 	os.chdir(location)
 	songs = os.listdir()
 	print("Converting album...")
