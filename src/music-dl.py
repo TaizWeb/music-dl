@@ -52,11 +52,10 @@ def addMetadata(location):
 	albumName = input("Enter the name of the album: ")
 	print("Adding metadata...")
 	for song in songs:
-		print("File:", song)
-		songTitle = input("Enter a title: ")
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
-			print("Converting: " + song)
-			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
+			print("File:", song)
+			songTitle = input("Enter a title: ")
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "-acodec", "copy", "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
 	addCoverArt(location)
@@ -69,11 +68,13 @@ def addCoverArt(location):
 		artLocation = "cover.png"
 	print("Adding cover art...")
 	for song in songs:
-		print("Adding art to " + song)
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
-			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
-			subprocess.run(["rm", song])
-			subprocess.run(["mv", "new-" + song, song])
+			print("Adding art to " + song)
+			# use -acodec copy after -map 1
+			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "-acodec", "copy", "new-" + song])
+			# subprocess.run(["rm", song])
+			# subprocess.run(["mv", "new-" + song, song])
+	os.chdir("..")
 
 # printInfo: Prints the required dependencies of music-dl
 def printInfo():
