@@ -14,10 +14,25 @@ def printOptions():
 	print("(i)nfo")
 	print("(q)uit music-dl")
 
+# verifyFolder: Prompts the user until a new folder is created, or an existing one is entered
+def verifyFolder(location):
+	if os.path.isdir(location):
+		return location
+	else:
+		print("The folder '" + location + "' doesn't exist.")
+		newFolder = input("Create one? (note that it'll need a cover image inside later) [y/n]: ")
+		if (newFolder == "y"):
+			os.mkdir(location)
+			print("Folder '" + location + "' created!")
+			return location
+		else:
+			location = verifyFolder(input("Enter a folder name for the playlist: "))
+	return location
+
 # downloadPrompt: Prompts the user for a link to the youtube-playlist
 def downloadPrompt():
 	playlist = input("Enter the playlist URL: ")
-	location = input("Enter a folder name for the playlist: ")
+	location = verifyFolder(input("Enter a folder name for the playlist: "))
 	print("Downloading...")
 	subprocess.run(["youtube-dl", "-x", playlist], cwd=os.getcwd() + "/" + location)
 	print("Album downloaded.")
