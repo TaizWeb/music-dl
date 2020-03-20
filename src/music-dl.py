@@ -1,9 +1,6 @@
 import subprocess
 import os
 
-# TODO: User friendlyness
-# TODO: Color output
-
 running = True
 formats = ["ogg", "opus", "mp3", "wav", "flac"]
 
@@ -112,7 +109,7 @@ def printInfo():
 	print("\nIn order to run music-dl, you need the following installed at their LATEST version:")
 	print("Python 3.6+: Can be installed from your systems package manager or from python.org, run python -v to check your installed version")
 	print("youtube-dl: Installed with 'pip install youtube-dl', can be upgraded with 'pip install --upgrade youtube-dl'")
-	print("ffmpeg: Installed/upgraded with your system's package manager. Debian users can run 'sudo apt install ffmpeg'\n")
+	print("ffmpeg: Installed/upgraded with your system's package manager. Debian-based users can run 'sudo apt install ffmpeg'\n")
 
 # The main loop, asks the user for what option to run
 while (running):
