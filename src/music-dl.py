@@ -34,11 +34,12 @@ def convertAlbum(location):
 	# subprocess.run(["../converter.sh", albumFormat], cwd=os.getcwd() + "/" + location)
 	os.chdir(location)
 	songs = os.listdir()
+	print("Converting album...")
 	for song in songs:
 		# Exclude images
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			songData = song.split(".")
-			subprocess.run(["ffmpeg", "-i", song, songData[0] + "." + albumFormat])
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, songData[0] + "." + albumFormat])
 			print("Removing " + song)
 			subprocess.run(["rm", song])
 
@@ -53,12 +54,13 @@ def addMetadata(location):
 	songs = os.listdir()
 	albumArtist = input("Enter the artist of the album: ")
 	albumName = input("Enter the name of the album: ")
-	print(songs)
+	print("Adding metadata...")
 	for song in songs:
+		print("File:", song)
 		songTitle = input("Enter a title: ")
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("Converting: " + song)
-			subprocess.run(["ffmpeg", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
 	addCoverArt(location)
@@ -69,12 +71,13 @@ def addCoverArt(location):
 	artLocation = input("Enter the filename within '" + location + "' of the cover art (default: cover.png): ")
 	if (artLocation == ""):
 		artLocation = "cover.png"
+	print("Adding cover art...")
 	for song in songs:
 		print("Adding art to " + song)
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
-			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
-			# subprocess.run(["rm", song])
-			# subprocess.run(["mv", "new-" + song, song])
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
+			subprocess.run(["rm", song])
+			subprocess.run(["mv", "new-" + song, song])
 	cleanupAlbum(location)
 
 # printInfo: Prints the required dependencies of music-dl
