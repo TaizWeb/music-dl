@@ -1,7 +1,6 @@
 import subprocess
 import os
 
-# TODO: Make ffmpeg be silent and make ffmpeg not reconvert songs
 # TODO: User friendlyness
 # TODO: Color output
 
@@ -70,7 +69,7 @@ def addCoverArt(location):
 	for song in songs:
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("Adding art to " + song)
-			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "-acodec", "copy", "new-" + song])
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "-acodec", "copy", "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
 	os.chdir("..")
