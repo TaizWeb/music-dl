@@ -39,6 +39,15 @@ def verifyFormat(fileFormat):
 		fileFormat = verifyFormat(input("Enter a format: "))
 	return fileFormat
 
+# verifyArt: Checks if the cover art exists
+def verifyArt(artLocation):
+	if (os.path.isfile(artLocation)):
+		return artLocation
+	else:
+		print("Cover art at '" + artLocation + "' doesn't exist.")
+		artLocation = verifyArt(input("Enter the cover art location: "))
+	return artLocation
+
 # downloadPrompt: Prompts the user for a link to the youtube-playlist
 def downloadPrompt():
 	playlist = input("Enter the playlist URL: ")
@@ -86,7 +95,7 @@ def addMetadata(location):
 # addCoverArt: Adds coverart to the songs
 def addCoverArt(location):
 	songs = os.listdir()
-	artLocation = input("Enter the filename within '" + location + "' of the cover art (default: cover.png): ")
+	artLocation = verifyArt(input("Enter the filename within '" + location + "' of the cover art (default: cover.png): "))
 	if (artLocation == ""):
 		artLocation = "cover.png"
 	print("Adding cover art...")
