@@ -1,15 +1,21 @@
 import subprocess
 import os
 
+# TODO: Make ffmpeg be silent and make ffmpeg not reconvert songs
+# TODO: User friendlyness
+# TODO: Color output
+
 running = True
 
 print("Welcome to music-dl, a tool built on youtube-dl!")
 
+# printOptions: Prints the current options for music-dl
 def printOptions():
 	print("(d)ownload a new album")
 	print("(i)nfo")
 	print("(q)uit music-dl")
 
+# downloadPrompt: Prompts the user for a link to the youtube-playlist
 def downloadPrompt():
 	playlist = input("Enter the playlist URL: ")
 	location = input("Enter a folder name for the playlist: ")
@@ -18,6 +24,7 @@ def downloadPrompt():
 	print("Album downloaded.")
 	convertAlbum(location)
 
+# convertAlbum: Converts the album to the format entered by the user
 def convertAlbum(location):
 	print("Downloaded albums tend to have songs in multiple filetypes.")
 	print("Would you like to convert them?")
@@ -41,6 +48,7 @@ def convertAlbum(location):
 def cleanupAlbum(location):
 	pass
 
+# addMetadata: Adds the album name, artist, and title to songs
 def addMetadata(location):
 	songs = os.listdir()
 	albumArtist = input("Enter the artist of the album: ")
@@ -55,6 +63,7 @@ def addMetadata(location):
 			subprocess.run(["mv", "new-" + song, song])
 	addCoverArt(location)
 
+# addCoverArt: Adds coverart to the songs
 def addCoverArt(location):
 	songs = os.listdir()
 	artLocation = input("Enter the filename within '" + location + "' of the cover art (default: cover.png): ")
@@ -68,12 +77,14 @@ def addCoverArt(location):
 			# subprocess.run(["mv", "new-" + song, song])
 	cleanupAlbum(location)
 
+# printInfo: Prints the required dependencies of music-dl
 def printInfo():
 	print("\nIn order to run music-dl, you need the following installed at their LATEST version:")
 	print("Python 3.6+, can be installed from your systems package manager or from python.org, run python -v to check your installed version")
 	print("youtube-dl: Installed with 'pip install youtube-dl', can be upgraded with 'pip install --upgrade youtube-dl'")
 	print("ffmpeg: Installed/upgraded with your system's package manager. Debian users can run 'sudo apt install ffmpeg'\n")
 
+# The main loop, asks the user for what option to run
 while (running):
 	printOptions()
 	selection = input("What would you like to do: ")
