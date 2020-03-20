@@ -45,10 +45,6 @@ def convertAlbum(location):
 
 	addMetadata(location)
 
-# Removes all songs without final- prefixed, then renames final- to it's old name
-def cleanupAlbum(location):
-	pass
-
 # addMetadata: Adds the album name, artist, and title to songs
 def addMetadata(location):
 	songs = os.listdir()
@@ -78,7 +74,6 @@ def addCoverArt(location):
 			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
-	cleanupAlbum(location)
 
 # printInfo: Prints the required dependencies of music-dl
 def printInfo():
