@@ -70,10 +70,9 @@ def addCoverArt(location):
 	for song in songs:
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("Adding art to " + song)
-			# use -acodec copy after -map 1
 			subprocess.run(["ffmpeg", "-i", song, "-i", artLocation, "-map_metadata", "0", "-map", "0", "-map", "1", "-acodec", "copy", "new-" + song])
-			# subprocess.run(["rm", song])
-			# subprocess.run(["mv", "new-" + song, song])
+			subprocess.run(["rm", song])
+			subprocess.run(["mv", "new-" + song, song])
 	os.chdir("..")
 
 # printInfo: Prints the required dependencies of music-dl
