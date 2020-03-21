@@ -13,7 +13,7 @@ A small program for getting an album from a youtube playlist and tagging it.
 ## Requirements
 Music-dl uses the following programs to run
 * Python 3.6+: Get it from your package manager or from [Python's site](https://python.org)
-* youtube-dl: Using pip is the preferred way of getting it, can also be gotten from python's website and installed with `pip3 install youtube-dl`
+* youtube-dl: Using pip is the preferred way of getting it, can also be obtained from python's website and installed with `pip3 install youtube-dl`
 * ffmpeg: Can be obtained via package manager or from [here](https://ffmpeg.org/)
 
 ## Installing
