@@ -87,7 +87,8 @@ def addMetadata(location):
 			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "-acodec", "copy", "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
-	addCoverArt(location)
+	os.chdir("..")
+	# addCoverArt(location)
 
 # addCoverArt: Adds coverart to the songs
 def addCoverArt(location):
