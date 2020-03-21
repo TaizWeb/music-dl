@@ -84,7 +84,7 @@ def addMetadata(location):
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("File:", song)
 			songTitle = input("Enter a title: ")
-			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album="' + albumName + '"', "-metadata", 'artist="' + albumArtist + '"', "-metadata", 'title="' + songTitle + '"', "-acodec", "copy", "new-" + song])
+			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-metadata", 'album=' + albumName, "-metadata", 'artist=' + albumArtist, "-metadata", 'title=' + songTitle, "-acodec", "copy", "new-" + song])
 			subprocess.run(["rm", song])
 			subprocess.run(["mv", "new-" + song, song])
 	os.chdir("..")
