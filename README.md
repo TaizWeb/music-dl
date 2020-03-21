@@ -10,6 +10,9 @@ A small program for getting an album from a youtube playlist and tagging it.
 * Adding cover art to songs, currently pushing for ogg support.
 * Adding more support for other formats
 
+## How can I get cover support for [music player of choice here]
+The majority of _good_ music players (foobar2000, vlc, etc) are satisfied with a simple cover.jpg (or png) in the same directory as the album. So after downloading the album with music-dl, it might be a good idea to grab the cover image and stick it in there so your music player can have the art loaded.
+
 ## Requirements
 Music-dl uses the following programs to run
 * Python 3.6+: Get it from your package manager or from [Python's site](https://python.org)
