@@ -9,8 +9,20 @@ print("Welcome to music-dl, a tool built on youtube-dl!")
 # printOptions: Prints the current options for music-dl
 def printOptions():
 	print("(d)ownload a new album")
+	print("(e)dit an existing album")
 	print("(i)nfo")
 	print("(q)uit music-dl")
+
+# editAlbum: Allows a user to edit an existing album
+def editAlbum():
+	editorFolder = input("Enter folder name of the album: ")
+
+	while not os.path.isdir(editorFolder):
+		print("Folder " + editorFolder + " could not be found.")
+		editorFolder = input("Enter folder name of the album: ")
+	
+	os.chdir(editorFolder)
+	addMetadata(editorFolder)
 
 # verifyFolder: Prompts the user until a new folder is created, or an existing one is entered
 def verifyFolder(location):
@@ -128,6 +140,8 @@ while (running):
 	selection = input("What would you like to do: ")
 	if (selection == "d"):
 		downloadPrompt()
+	elif (selection == "e"):
+		editAlbum()
 	elif (selection == "i"):
 		printInfo()
 	elif (selection == "q"):
