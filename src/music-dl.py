@@ -20,7 +20,7 @@ def editAlbum():
 	while not os.path.isdir(editorFolder):
 		print("Folder " + editorFolder + " could not be found.")
 		editorFolder = input("Enter folder name of the album: ")
-	
+
 	os.chdir(editorFolder)
 	addMetadata(editorFolder)
 
@@ -96,9 +96,9 @@ def addMetadata(location):
 	print("Adding metadata...")
 	for song in songs:
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
+			print("File:", song)
 			if delimiter:
-				print("Original:", song)
-			print("File:", song.split(delimiter)[0])
+				print("Delimited:", song.split(delimiter)[0])
 			songTitle = input("Enter a title (blank to leave as-is): ")
 			if not songTitle:
 				if not delimiter:
