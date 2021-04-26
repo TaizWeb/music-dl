@@ -91,20 +91,30 @@ def addMetadata(location):
 	songs = os.listdir()
 	albumArtist = input("Enter the artist of the album: ")
 	albumName = input("Enter the name of the album: ")
+
+	# Delimiter
 	print("Would you like a delimiter? Ex. Setting the delimiter to '-':\nSong Title - Album Name -> Song Title")
 	delimiter = input("Enter delimiter (blank for none): ")
+	if delimiter:
+		songSplit = songs[0].split(delimiter)
+		print("For '" + songs[0] + "' this would result in:")
+		for index, split in songSplit:
+			print("[" + index+1 + "] " + split)
+		delimitIndex = int(input("Which index should be used: "))
+
+	# Add the meta data
 	print("Adding metadata...")
 	for song in songs:
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			print("File:", song)
 			if delimiter:
-				print("Delimited:", song.split(delimiter)[0])
+				print("Delimited:", song.split(delimiter)[delimitIndex-1])
 			songTitle = input("Enter a title (blank to leave as-is): ")
 			if not songTitle:
 				if not delimiter:
 					songTitle = song
 				else:
-					songTitle = song.split(delimiter)[0]
+					songTitle = song.split(delimiter)[delimitIndex-1]
 
 			# Writing metadata
 			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, "-map_metadata", "-1", "-metadata", 'album=' + albumName, "-metadata", 'artist=' + albumArtist, "-metadata", 'title=' + songTitle, "-acodec", "copy", "new-" + song])
