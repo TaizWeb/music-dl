@@ -98,8 +98,8 @@ def addMetadata(location):
 	if delimiter:
 		songSplit = songs[0].split(delimiter)
 		print("For '" + songs[0] + "' this would result in:")
-		for index, split in songSplit:
-			print("[" + index+1 + "] " + split)
+		for index, split in enumerate(songSplit):
+			print("[" + str(index+1) + "] " + split)
 		delimitIndex = int(input("Which index should be used: "))
 
 	# Add the meta data
