@@ -62,7 +62,7 @@ def downloadPrompt():
 	playlist = input("Enter the playlist URL: ")
 	location = verifyFolder(input("Enter a folder name for the playlist: "))
 	print("Downloading...")
-	subprocess.run(["youtube-dl", "-x", playlist], cwd=os.getcwd() + "/" + location)
+	subprocess.run(["yt-dlp", "-x",  playlist], cwd=os.getcwd() + "/" + location)
 	print("Album downloaded.")
 	convertAlbum(location)
 
