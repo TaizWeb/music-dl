@@ -80,6 +80,11 @@ def convertAlbum(location):
 		# Exclude images
 		if (song[-3:] != "png" and song[-3:] != "jpg" and song[-4:] != "jpeg"):
 			songData = song.split(".")
+			# Append everything prior to the extension
+			for i in range(len(songData)):
+				if i+1 < len(songData):
+					songData[0] += songData[i+1]
+			# ffmpeg convert
 			subprocess.run(["ffmpeg", "-loglevel", "panic", "-i", song, songData[0] + "." + albumFormat])
 			print("Removing " + song)
 			subprocess.run(["rm", song])
